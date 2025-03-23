@@ -31,13 +31,13 @@ e.g.
 #### Translation persistence (if completed)
 ​
  When a translation is requested, the Lambda function first checks whether the translation for the target language already exists in the DynamoDB record. If a cached translation is found, it returns the stored value immediately. If not, the function calls Amazon Translate to perform the translation, then updates the same DynamoDB record with the new translation. This approach prevents repeated calls to the translation service, reducing cost and latency.
-​
-{
-+   "PK": "userA",
-+   "SK": "item002",
-+   "originalDescription": "hello",
-+   "translatedText": "你好",
-+   "cached": true
+​<br>
+{<br>
+   "PK": "userA",<br>
+   "SK": "item002",<br>
+   "originalDescription": "hello",<br>
+   "translatedText": "你好",<br>
+   "cached": true<br>
 }
 
 ​
