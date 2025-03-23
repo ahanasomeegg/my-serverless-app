@@ -95,8 +95,8 @@ thingsWithSk.addMethod('PUT', new apigw.LambdaIntegration(putItemLambda), {
 });
 ~~~
 
-+ Testing:
-+ When testing these endpoints with a tool like Postman or curl, ensure you include the API key in the request header as follows:
+ Testing:
+ When testing these endpoints with a tool like Postman or curl, ensure you include the API key in the request header as follows:
 
 Header Name: x-api-key
 
