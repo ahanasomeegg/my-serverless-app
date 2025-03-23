@@ -5,6 +5,8 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigw from 'aws-cdk-lib/aws-apigateway';
 import { join } from 'path';
 import * as cdk from 'aws-cdk-lib';
+import * as iam from 'aws-cdk-lib/aws-iam';
+
 
 export class MyServerlessAppStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -74,7 +76,35 @@ export class MyServerlessAppStack extends Stack {
     const thingsWithSk = thingsWithPk.addResource('{sk}');
     thingsWithSk.addMethod('PUT', new apigw.LambdaIntegration(putItemLambda)); 
     
-     
+    // create Lambda 
+    const getTranslationLambda = new lambda.Function(this, 'GetTranslationLambda', {
+      runtime: lambda.Runtime.NODEJS_18_X,
+      handler: 'getTranslation.handler',
+      code: lambda.Code.fromAsset(join(__dirname, '../lambdas')),
+      environment: {
+        TABLE_NAME: thingsTable.tableName,
+      },
+    });
+    thingsTable.grantReadWriteData(getTranslationLambda);
+    getTranslationLambda.addToRolePolicy(new iam.PolicyStatement({
+      actions: ['translate:TranslateText'],
+      resources: ['*'],
+    }));
+
+    // Add permissions to getTranslationLambda
+    getTranslationLambda.addToRolePolicy(new iam.PolicyStatement({
+      actions: [
+       "translate:TranslateText",
+       "comprehend:DetectDominantLanguage"
+      ],
+      resources: ["*"],
+    }));
+    
+    // add translation
+    const translationResource = thingsWithSk.addResource('translation');
+    translationResource.addMethod('GET', new apigw.LambdaIntegration(getTranslationLambda));
+ 
+
     // Output API URL
     new cdk.CfnOutput(this, 'ApiUrl', {
       value: `https://${api.restApiId}.execute-api.${this.region}.amazonaws.com/${api.deploymentStage.stageName}`,
