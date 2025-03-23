@@ -57,7 +57,24 @@ export class MyServerlessAppStack extends Stack {
 
      thingsResource.addMethod('POST', new apigw.LambdaIntegration(postItemLambda));
 
+    // create Lambda (PUT Items)
+    const putItemLambda = new lambda.Function(this, 'PutItemLambda', {
+      runtime: lambda.Runtime.NODEJS_18_X,
+      handler: 'putItem.handler',
+      code: lambda.Code.fromAsset(join(__dirname, '../lambdas')),
+      environment: {
+      TABLE_NAME: thingsTable.tableName,
+        },
+      });
 
+    // Authorize Lambda functions to write data
+    thingsTable.grantWriteData(putItemLambda);
+
+    // Add new resource path/things/{pk}/{sk}
+    const thingsWithSk = thingsWithPk.addResource('{sk}');
+    thingsWithSk.addMethod('PUT', new apigw.LambdaIntegration(putItemLambda)); 
+    
+     
     // Output API URL
     new cdk.CfnOutput(this, 'ApiUrl', {
       value: `https://${api.restApiId}.execute-api.${this.region}.amazonaws.com/${api.deploymentStage.stageName}`,
