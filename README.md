@@ -52,6 +52,7 @@ In this project, API key authentication is used to secure certain API Gateway en
 In our CDK stack, we create a Usage Plan and an API Key, then associate them with the API stage. This setup ensures that any request to protected endpoints must include the correct API key.
 
 + code
+~~~ts
 // Create a Usage Plan with throttling and quota settings
 const plan = api.addUsagePlan('UsagePlan', {
   name: 'ThingsUsagePlan',
@@ -76,11 +77,13 @@ plan.addApiStage({
   stage: api.deploymentStage,
   api: api,
 });
+~~~
 
 2. Protecting Endpoints with API Key Requirement
 For the endpoints that should be protected, we set the apiKeyRequired property to true. For example, the POST and PUT endpoints are configured as follows:
 
 + code
+~~~ts
 // Protect the POST endpoint: only requests with a valid API key will be allowed.
 thingsResource.addMethod('POST', new apigw.LambdaIntegration(postItemLambda), {
   apiKeyRequired: true,
@@ -90,6 +93,7 @@ thingsResource.addMethod('POST', new apigw.LambdaIntegration(postItemLambda), {
 thingsWithSk.addMethod('PUT', new apigw.LambdaIntegration(putItemLambda), {
   apiKeyRequired: true,
 });
+~~~
 
 + Testing:
 When testing these endpoints with a tool like Postman or curl, ensure you include the API key in the request header as follows:
