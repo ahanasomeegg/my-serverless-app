@@ -2,7 +2,7 @@
 ​
 __Name:__ ....Duan Li.....<br>
 ​
-__Demo:__ ... link to your YouTube video demonstration ......
+__Demo:__ ... [link to your YouTube video demonstration](https://youtu.be/Sq01swo1u-4) ......
 ​
 ### Context.
 ​
@@ -105,10 +105,6 @@ Header Value: the API key
 
 Without the correct API key, the API Gateway will return a 403 Forbidden response, thereby protecting your endpoints.
 
-~~~ts
-// This is a code excerpt markdown 
-let foo : string = 'Foo'
-console.log(foo)
-~~~
+
 ​
 ​
