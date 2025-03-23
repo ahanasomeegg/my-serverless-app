@@ -1,6 +1,6 @@
 ## Serverless REST Assignment - Distributed Systems.
 ​
-__Name:__ ....Duan Li.....
+__Name:__ ....Duan Li.....<br>
 ​
 __Demo:__ ... link to your YouTube video demonstration ......
 ​
@@ -32,6 +32,7 @@ e.g.
 ​
  When a translation is requested, the Lambda function first checks whether the translation for the target language already exists in the DynamoDB record. If a cached translation is found, it returns the stored value immediately. If not, the function calls Amazon Translate to perform the translation, then updates the same DynamoDB record with the new translation. This approach prevents repeated calls to the translation service, reducing cost and latency.
 ​<br>
+structure
 {<br>
    "PK": "userA",<br>
    "SK": "item002",<br>
@@ -79,7 +80,7 @@ plan.addApiStage({
 });
 ~~~
 
-2. Protecting Endpoints with API Key Requirement
+2. Protecting Endpoints with API Key Requirement<br>
 For the endpoints that should be protected, we set the apiKeyRequired property to true. For example, the POST and PUT endpoints are configured as follows:
 
 + code
@@ -95,7 +96,7 @@ thingsWithSk.addMethod('PUT', new apigw.LambdaIntegration(putItemLambda), {
 });
 ~~~
 
- Testing:
+ Testing:<br>
  When testing these endpoints with a tool like Postman or curl, ensure you include the API key in the request header as follows:
 
 Header Name: x-api-key
