@@ -45,8 +45,25 @@ export const handler = async (event: APIGatewayEvent) => {
 
     const originalDescription = getItemRes.Item.description?.S || "";
 
-    //check if it exits
+    // 【修改 1】：增加原始文本为空的判断，避免不必要的翻译调用
+    if (!originalDescription) {
+        return {
+          statusCode: 200,
+          body: JSON.stringify({
+            PK: pk,
+            SK: sk,
+            originalDescription,
+            translatedText: "",
+            cached: false,
+            message: "Original description is empty",
+          }),
+        };
+      }
+
+    //Define attribute names for caching translations
     const translationAttr = `translation_${targetLanguage}`;
+
+    //check if it exits
     const cachedTranslation = getItemRes.Item[translationAttr]?.S;
     if (cachedTranslation) {
       return {

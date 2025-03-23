@@ -24,8 +24,8 @@ Table item attributes:
 e.g.
  
 + POST /thing - add a new 'thing'.
-+ GET /thing/{partition-key}/ - Get all the 'things' with a specified partition key.
-+ GEtT/thing/{partition-key}?attributeX=value - Get all the 'things' with a specified partition key value and its attributeX satisfying the condition .....
++ GET /thing/{pk}/ - Get all the 'things' with a specified partition key.
++ PUT /thing/{pk}/{sk} - update all the 'things' with a specified partition key value and its attributeX satisfying the condition .....
 + etc
 ​
 ​
