@@ -37,6 +37,31 @@ export class MyServerlessAppStack extends Stack {
       restApiName: 'Things Service',
     });
 
+    // create Usage Plan
+    const plan = api.addUsagePlan('UsagePlan', {
+      name: 'ThingsUsagePlan',
+      throttle: {
+        rateLimit: 10,
+        burstLimit: 2,
+      },
+      quota: {
+        limit: 10000,
+        period: apigw.Period.DAY,
+      },
+    });
+
+    // create API Key
+    const apiKey = api.addApiKey('ThingsApiKey', {
+      apiKeyName: 'ThingsApiKey',
+    });
+    // Associate API Key with Usage Plan
+    plan.addApiKey(apiKey);
+    // Associate Usage Plan with API stages
+    plan.addApiStage({
+      stage: api.deploymentStage,
+      api: api,
+    });
+
     // /things
     const thingsResource = api.root.addResource('things');
 
@@ -57,7 +82,9 @@ export class MyServerlessAppStack extends Stack {
     });
      thingsTable.grantWriteData(postItemLambda);
 
-     thingsResource.addMethod('POST', new apigw.LambdaIntegration(postItemLambda));
+     thingsResource.addMethod('POST', new apigw.LambdaIntegration(postItemLambda), {
+      apiKeyRequired: true, // New: Protecting POST endpoints
+    });
 
     // create Lambda (PUT Items)
     const putItemLambda = new lambda.Function(this, 'PutItemLambda', {
@@ -74,8 +101,10 @@ export class MyServerlessAppStack extends Stack {
 
     // Add new resource path/things/{pk}/{sk}
     const thingsWithSk = thingsWithPk.addResource('{sk}');
-    thingsWithSk.addMethod('PUT', new apigw.LambdaIntegration(putItemLambda)); 
-    
+    thingsWithSk.addMethod('PUT', new apigw.LambdaIntegration(putItemLambda), {
+      apiKeyRequired: true, // New: Protecting PUT endpoints
+    });
+
     // create Lambda 
     const getTranslationLambda = new lambda.Function(this, 'GetTranslationLambda', {
       runtime: lambda.Runtime.NODEJS_18_X,
