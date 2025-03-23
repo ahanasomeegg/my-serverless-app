@@ -1,14 +1,58 @@
-# Welcome to your CDK TypeScript project
+## Serverless REST Assignment - Distributed Systems.
+​
+__Name:__ ....Duan Li.....
+​
+__Demo:__ ... link to your YouTube video demonstration ......
+​
+### Context.
+​
+State the context you chose for your web API and detail the attributes of the DynamoDB table items, e.g.
+​
+Context: Movie Cast
+​
+Table item attributes:
++ MovieID - number  (Partition key)
++ ActorID - number  (Sort Key)
++ RoleName - string
++ RoleDescription - string
++ AwardsWon - List<string>
++ etc
+​
+### App API endpoints.
+​
+[ Provide a bullet-point list of the app's endpoints (excluding the Auth API) you have successfully implemented. ]
+e.g.
+ 
++ POST /thing - add a new 'thing'.
++ GET /thing/{partition-key}/ - Get all the 'things' with a specified partition key.
++ GEtT/thing/{partition-key}?attributeX=value - Get all the 'things' with a specified partition key value and its attributeX satisfying the condition .....
++ etc
+​
+​
+### Features.
+​
+#### Translation persistence (if completed)
+​
+[ Explain briefly your solution to the translation persistence requirement - no code excerpts required. Show the structure of a table item that includes review translations, e.g.
+​
++ MovieID - number  (Partition key)
++ ActorID - number  (Sort Key)
++ RoleName - string
++ RoleDescription - string
++ AwardsWon - List<string>
++ Translations - ?
+]
+​
 
-This is a blank project for CDK development with TypeScript.
-
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
-## Useful commands
-
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
+​
+#### API Keys. (if completed)
+​
+[Explain briefly how to implement API key authentication to protect API Gateway endpoints. Include code excerpts from your app to support this. ][]
+​
+~~~ts
+// This is a code excerpt markdown 
+let foo : string = 'Foo'
+console.log(foo)
+~~~
+​
+​

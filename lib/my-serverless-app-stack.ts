@@ -115,11 +115,7 @@ export class MyServerlessAppStack extends Stack {
       },
     });
     thingsTable.grantReadWriteData(getTranslationLambda);
-    getTranslationLambda.addToRolePolicy(new iam.PolicyStatement({
-      actions: ['translate:TranslateText'],
-      resources: ['*'],
-    }));
-
+    
     // Add permissions to getTranslationLambda
     getTranslationLambda.addToRolePolicy(new iam.PolicyStatement({
       actions: [
